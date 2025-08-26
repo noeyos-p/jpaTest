@@ -1,6 +1,8 @@
 package com.my.jpaTest.service;
 
+import com.my.jpaTest.entity.Child;
 import com.my.jpaTest.entity.Member;
+import com.my.jpaTest.entity.Parent;
 import com.my.jpaTest.entity.Team;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -55,5 +57,29 @@ public class RelationTestService {
         // 객체지향 개념을 확실하게 하기 위해서
         ssirum.getMemberList().add(lee);
         ssirum.getMemberList().add(kang);
+    }
+
+    public void saveChildren() {
+        // 자식 생성
+        Child c1 = new Child();
+        Child c2 = new Child();
+
+        // 부모생성
+        Parent p = new Parent();
+        // 자식에 부모할당
+        c1.setParent(p);
+        c2.setParent(p);
+        // 부모의 자식 리스트 만들기
+        p.getChildren().add(c1);
+        p.getChildren().add(c2);
+
+        // 부모를 저장하면 자식들도 따라 저장됨
+        // Cascade가  persist로 설정되어 있기 때문
+        em.persist(p);
+    }
+
+    public void deleteParent() {
+        Parent p = em.find(Parent.class, 1L);
+        em.remove(p);
     }
 }

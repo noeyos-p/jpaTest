@@ -23,6 +23,7 @@ public class Team {
     private String teamName;
     // 팀의 소속된 멤버의 리스트를 저장
     // 연관관계 설정 : Member class 의 Team 정보를 가리킴
+    @Builder.Default
     @OneToMany(mappedBy = "team", fetch = FetchType.EAGER)
     private List<Member> memberList = new ArrayList<>();
 }

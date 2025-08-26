@@ -1,6 +1,7 @@
 package com.my.jpaTest.service;
 
 import com.my.jpaTest.entity.Member;
+import com.my.jpaTest.entity.Parent;
 import com.my.jpaTest.entity.Team;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +39,7 @@ class RelationTestServiceTest {
     EntityManager em;
 
     @Test
-    @DisplayName("단방향 연관관계 설정 후 팀 이름 찾기")
+    @DisplayName("양방향 연관관계 설정 후 팀 이름 찾기")
     void saveBothData() {
         relationTestService.insertBothRelation();
     }
@@ -67,4 +68,16 @@ class RelationTestServiceTest {
 
     // Unique index or primary key violation: "PUBLIC.PRIMARY_KEY_2 ON PUBLIC.TEAM(TEAM_ID) VALUES ( /* 1 */ 'ive' )"; SQL statement:
     // 이미 데이터 베이스에 존재하는 데이터를 또 집어넣으려고 했다 라는 오류
+
+    @Test
+    @DisplayName("영속성 전이 테스트")
+    void persistTest() {
+        relationTestService.saveChildren();
+    }
+
+    @Test
+    @DisplayName("부모삭제테스트-자식도같이")
+    void deleteParent() {
+        relationTestService.deleteParent();
+    }
 }
